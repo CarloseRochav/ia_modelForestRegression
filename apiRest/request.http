@@ -1,0 +1,26 @@
+POST  http://127.0.0.1:5000/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="data"; filename="data.csv"
+Content-Type: image/jpeg
+
+< ./src/period_sem_table_modified.csv
+
+
+
+
+###
+GET http://127.0.0.1:5000/hola
+
+
+###
+GET http://127.0.0.1:5000/train
+
+
+
+
+
+
+
+
