@@ -18,19 +18,37 @@ import csv
 
 #Funcion para cargar un archivo
 def uploadFile(file):
-    # Save the file
-    file.save('recibidos/' + file.filename)
 
-    # # Convierta el archivo a bytes
-    # bytes_file = file.read()
-    # Convierta el archivo a str
-    str_file = file.read().decode()
+    try:    
+        # Save the file
+        file.save('recibidos/' + file.filename)
 
-    # #Ver archvivo csv recibido
-    # with open(str_file, 'r') as f:
-    #     reader = csv.reader(f)
-    #     for row in reader:
-    #         print(row)
+        # # Convierta el archivo a bytes
+        # bytes_file = file.read()
+        # Convierta el archivo a str
+        str_file = file.read().decode()
+
+        # #Ver archvivo csv recibido
+        # with open(str_file, 'r') as f:
+        #     reader = csv.reader(f)
+        #     for row in reader:
+        #         print(row)
+        # << -- Falta revisar el codigo, causa error al intentar este snippet
+
+
+        return jsonify({
+            "code":200,
+            "message" : "Archivo subido"
+        }) # jsonify garantiza JSON válido
+
+    except Exception as exc:
+        print("Ha ocurrido un error : "+exc)    
+        return jsonify({
+            "code":400,
+            "message" : "Error : "+exc
+        }) # jsonify garantiza JSON válido
+
+    
 
 
 

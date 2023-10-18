@@ -48,13 +48,28 @@ def upload_file():
     try:
         file = request.files['file']
 
+        #Validacion de existencia de archivo
+        try:
+            print("Archivo recibido : "+str(file)) 
+        except NameError:
+            print("El valor no existe")
+        
+
+        
+
         # Save the file
         #file.save('uploads/' + file.filename)
-        uploadFile(file)
-        return 'File uploaded successfully!'
+        response = uploadFile(file)
+        return response
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print("Se encontro este error : "+ str(e))
+        return jsonify({"error al cargar": str(e)}), 500
+    
+
+#EL anterior codigo descrito si recibe el archivo al hacer la peticion con insomnia-
+#-y guarda el archivo en la ruta especificada
+
 
 #Ruta para pruebas
 @app.route("/hola",methods=['GET'])
