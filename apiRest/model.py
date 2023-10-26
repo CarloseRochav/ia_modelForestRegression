@@ -51,32 +51,72 @@ def uploadFile(file):
     
 
 
-
 #Funcion para entrenar el modelo
 def trainModel():    
-    #Ruta del archivo
-    dfBeta = pd.read_csv('./recibidos/period_sem_table_modified.csv')
-    df = dfBeta.round()
 
-    # Entrenamiento
-    X = df.iloc[:,0:21] # Columnas de periodos 1-22
-    y = df.iloc[:,21] # Periodo 22 como target
+    try:
+        # Code that might raise an exception
+        #Ruta del archivo
+        dfBeta = pd.read_csv('./recibidos/period_sem_table_modified.csv')
+        df = dfBeta.round()
 
-    rf = RandomForestRegressor()
-    rf.fit(X, y)
+        # Entrenamiento
+        X = df.iloc[:,0:21] # Columnas de periodos 1-22
+        y = df.iloc[:,21] # Periodo 22 como target
 
-    # Predicciones para periodo 23 
-    predictions = rf.predict(X)
+        rf = RandomForestRegressor()
+        rf.fit(X, y)
 
-    return predictions    
+        # Predicciones para periodo 23 
+        predictions = rf.predict(X)
 
 
+        predRounded = [round_to_closest(number) for number in predictions]
+
+        return np.array(predRounded) #Convert a normal python list to Numpy array
+        #return predictions
+
+    except Exception as e:
+        print("An error occurred:", e)    
+
+
+
+
+
+#Funciones Auxiliares
 def holaMundo():
     return "Holaaaa mundo"
 
 
 
+import math
+
+def round_to_closest(number):
+  """Rounds a number to the value most close.
+
+  Args:
+    number: A float or integer.
+
+  Returns:
+    A float or integer, rounded to the value most close.
+  """
+
+  if number == 0:
+    return 0
+
+  # If the number is negative, round it up to the nearest integer.
+  if number < 0:
+    return math.ceil(number)
+
+  # If the number is positive, round it down to the nearest integer.
+  return math.floor(number)
+
+# Example usage:
+
+#number = 1.5
+#rounded_number = round_to_closest(number)
+
+#print(rounded_number)
 
 
-    
 

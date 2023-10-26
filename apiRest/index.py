@@ -28,7 +28,8 @@ def entrenar():
         msg = trainModel()        
         # #return msg.tolist() #Importante regresar con el metodo .tolist() para un objeto "ndarray"               
         #msg = np.array([1, 2, 3]) # ejemplo datos
-        print(msg) # imprime para verificar valores
+        print("Valores recibidos : ", msg) # imprime para verificar valores
+        print("Tipo de dato : ", type(msg)) # imprime para verificar valores
   
         msg = msg.tolist() # convierte a lista regular
   
@@ -39,7 +40,7 @@ def entrenar():
         return jsonify(data) # jsonify garantiza JSON válido
        
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"Error ": str(e)}), 500
     
 
 #Ruta para mandar archivos
