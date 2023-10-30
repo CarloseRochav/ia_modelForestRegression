@@ -1,6 +1,7 @@
 from flask import Flask, request,Response
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile;
+from functions import addData
 from flask import jsonify
 import json
 #CORS
@@ -76,6 +77,16 @@ def upload_file():
 @app.route("/hola",methods=['GET'])
 def saludo():
     return holaMundo()
+
+
+@app.route("/update",methods=['GET'])
+def addDate():
+    try:
+        addData()
+        return "Todo salio bien"
+    except Exception as e:
+        return "error : ",e
+
 
     
  #; Ruta para llamar a la funcion que entrena el modelo randomForestRegression, es

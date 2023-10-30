@@ -57,7 +57,8 @@ def trainModel():
     try:
         # Code that might raise an exception
         #Ruta del archivo
-        dfBeta = pd.read_csv('./recibidos/period_sem_table_modified.csv')
+        #dfBeta = pd.read_csv('./recibidos/period_sem_table_modified.csv')
+        dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
         df = dfBeta.round()
 
         # Entrenamiento
