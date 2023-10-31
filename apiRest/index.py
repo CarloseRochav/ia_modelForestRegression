@@ -5,14 +5,18 @@ from functions import addData
 from flask import jsonify
 import json
 #CORS
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 import numpy as np
 
 app = Flask(__name__)
-CORS(app, allow_all_origins=True) #Para evitar problemas con CORS y front end
+#CORS(app, allow_all_origins=True) #Para evitar problemas con CORS y front end
 #CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}}) #Para evitar problemas con CORS y front end
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
 
-
+# @after_request
+# def add_cors_headers(response):
+#   response.headers.add('Access-Control-Allow-Origin', '*')
+#   return response
 
 #Creacion de rutas:
 
@@ -54,8 +58,7 @@ def upload_file():
         try:
             print("Archivo recibido : "+str(file)) 
         except NameError:
-            print("El valor no existe")
-        
+            print("El valor no existe")       
 
         
 
@@ -79,11 +82,21 @@ def saludo():
     return holaMundo()
 
 
-@app.route("/update",methods=['GET'])
+@app.route("/update",methods=['POST'])
+@cross_origin()
 def addDate():
     try:
-        addData()
-        return "Todo salio bien"
+        data = request.get_json();
+        print("Estructura recibida : ",data)
+        #array = data["data"]
+
+
+        addData(data)
+        
+        return jsonify({
+            "code":200,
+            "message" : "Archivo actualizado"
+        }) # jsonify garantiza JSON válido
     except Exception as e:
         return "error : ",e
 

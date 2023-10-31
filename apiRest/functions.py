@@ -8,23 +8,25 @@ import csv
 #file='./recibidos/period_sem_table_modified-ToTestNew.csv';
 
 #Funcion para agregar una columna al dataframe
-def addData():
+def addData(newPred):
 
-    try:
+    try:        
+        
         # Leer CSV 
         with open('./recibidos/period_sem_table_modified-ToTestNew.csv','r') as file:
             reader = csv.reader(file)
             rows = list(reader)
 
             # Agregar encabezado
-            rows[0].append('new_group') 
+            rows[0].append('periodo_30') 
 
             # Agregar valores de la nueva columna  
-        nuevos_datos = ['Soltero', 'Casada', 'Divorciado']
+        #nuevos_datos = ['Soltero', 'Casada', 'Divorciado']
+        
         for i in range(1, len(rows)):
             indice = i-1
-            if indice < len(nuevos_datos):
-                rows[i].append(nuevos_datos[indice])
+            if indice < len(newPred):
+                rows[i].append(newPred[indice])
             else:
                 rows[i].append('')
 
