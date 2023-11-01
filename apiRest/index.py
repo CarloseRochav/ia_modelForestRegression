@@ -95,7 +95,7 @@ def addDate():
         
         return jsonify({
             "code":200,
-            "message" : "Archivo actualizado"
+            "messagge" : "Archivo actualizado"
         }) # jsonify garantiza JSON válido
     except Exception as e:
         return "error : ",e
