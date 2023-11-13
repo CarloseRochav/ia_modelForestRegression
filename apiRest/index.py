@@ -1,7 +1,7 @@
 from flask import Flask, request,Response
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile;
-from functions import addData
+from functions import addData,getCsvData
 from flask import jsonify
 import json
 #CORS
@@ -9,6 +9,7 @@ from flask_cors import CORS,cross_origin
 import numpy as np
 
 app = Flask(__name__)
+app.static_folder = './recibidos'
 #CORS(app, allow_all_origins=True) #Para evitar problemas con CORS y front end
 #CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}}) #Para evitar problemas con CORS y front end
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
@@ -99,11 +100,15 @@ def addDate():
         }) # jsonify garantiza JSON válido
     except Exception as e:
         return "error : ",e
-
-
     
  #; Ruta para llamar a la funcion que entrena el modelo randomForestRegression, es
  # necesario usar capturador de errores en esta parte, justo en el endpoint   
+
+
+
+@app.route("/getdatatable",methods=['GET'])
+def getTable():
+    return 
 
 
 #Correr el servidor
