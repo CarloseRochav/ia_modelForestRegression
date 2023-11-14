@@ -1,6 +1,6 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
-from model import trainModel,holaMundo,uploadFile,meansColumns;
+from model import trainModel,holaMundo,uploadFile,meansColumns,modeColumns,getSetData;
 from functions import addData,getCsvData
 from flask import jsonify
 import json
@@ -111,17 +111,19 @@ def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)    
 #For more Information https://flask.palletsprojects.com/en/3.0.x/patterns/fileuploads/
 
-#Ruta para obtener promedios
-@app.route("/means")
-def getMeans():
-    meansColumns()
-    return "Proceso logrado"
+
+#Ruta para Estadisticas
+@app.route("/statistics",methods=['GET'])
+def saludo():
+    getSetData()
+    print("Resultados")
+    return "Proceso terminado"
 
 
 #Ruta para pruebas
 @app.route("/hola",methods=['GET'])
-def saludo():
-    return app.config["UPLOAD_FOLDER"]
+def saludo():    
+    return "Bienvenido, saludos."
 
 
 #Correr el servidor

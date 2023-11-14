@@ -1,5 +1,6 @@
 #Librerias necesarias
 import pandas as pd
+from scipy import stats
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
@@ -80,21 +81,42 @@ def trainModel():
         print("An error occurred:", e)    
 
 
+#Funcion para sacar conjunto de medidas ; media, moda, promedio
+def getSetData():
+  try:
+    dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
+    df = dfBeta.round()
 
-#Funcion para sacar promedios por columna
-def meansColumns():
-   try:
-      dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
-      df = dfBeta.round()
-      column_means = np.mean(df, axis=0)       
-      
-      for i in range(len(column_means)):
-        print(f'Columna {column_means.index[i]} : {column_means.values[i]}')
-
-      
-   except Exception as e:
-      print("Means - > Error al procesar promedios : ",e)
-
+    # Iterar sobre cada fila 
+    for index, row in df.iterrows():
+        
+        # Extraer los valores de la fila en un array
+        values = row.to_numpy()
+        
+        # Calcular estadísticas
+        mean = np.mean(values)
+        median = np.median(values)
+        mode = stats.mode(values)
+        # trend = linregress(np.arange(len(values)), values).slope
+        
+        # Imprimir
+        print(f'Fila {index}') 
+        print(f'Media: {mean}')
+        print(f'Mediana: {median}') 
+    
+        # Revisar si es array o escalar - MODA
+        if isinstance(mode.mode, np.ndarray):
+          num_modes = mode.mode.size
+          if num_modes > 1:
+            print(f"Moda: {mode.mode}")
+          else:
+            print(f"Moda: {mode.mode[0]}")
+        else:
+          print(f"Moda: {mode.mode}")
+            # print(f'Tendencia: {trend}')
+  
+  except Exception as e:
+    print("Error al intentar calcular datos  : ",e)
 
 
 
