@@ -71,7 +71,6 @@ def trainModel():
         # Predicciones para periodo 23 
         predictions = rf.predict(X)
 
-
         predRounded = [round_to_closest(number) for number in predictions]
 
         return np.array(predRounded) #Convert a normal python list to Numpy array
@@ -80,6 +79,21 @@ def trainModel():
     except Exception as e:
         print("An error occurred:", e)    
 
+
+
+#Funcion para sacar promedios por columna
+def meansColumns():
+   try:
+      dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
+      df = dfBeta.round()
+      column_means = np.mean(df, axis=0)       
+      
+      for i in range(len(column_means)):
+        print(f'Columna {column_means.index[i]} : {column_means.values[i]}')
+
+      
+   except Exception as e:
+      print("Means - > Error al procesar promedios : ",e)
 
 
 

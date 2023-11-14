@@ -1,6 +1,6 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
-from model import trainModel,holaMundo,uploadFile;
+from model import trainModel,holaMundo,uploadFile,meansColumns;
 from functions import addData,getCsvData
 from flask import jsonify
 import json
@@ -8,10 +8,7 @@ import json
 from flask_cors import CORS,cross_origin
 import numpy as np
 
-
-
 app = Flask(__name__) #Creacion del servidor
-
 
 #Config path to upload/download files 
 UPLOAD_FOLDER = 'recibidos'
@@ -112,6 +109,13 @@ def addDate():
 @app.route('/uploads/<name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)    
+#For more Information https://flask.palletsprojects.com/en/3.0.x/patterns/fileuploads/
+
+#Ruta para obtener promedios
+@app.route("/means")
+def getMeans():
+    meansColumns()
+    return "Proceso logrado"
 
 
 #Ruta para pruebas
