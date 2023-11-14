@@ -1,4 +1,4 @@
-from flask import Flask, request,Response
+from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile;
 from functions import addData,getCsvData
@@ -8,8 +8,17 @@ import json
 from flask_cors import CORS,cross_origin
 import numpy as np
 
-app = Flask(__name__)
-app.static_folder = './recibidos'
+
+
+app = Flask(__name__) #Creacion del servidor
+
+
+#Config path to upload/download files 
+UPLOAD_FOLDER = 'recibidos'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #Set Upload Directory
+
+
+
 #CORS(app, allow_all_origins=True) #Para evitar problemas con CORS y front end
 #CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}}) #Para evitar problemas con CORS y front end
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
@@ -77,12 +86,6 @@ def upload_file():
 #-y guarda el archivo en la ruta especificada
 
 
-#Ruta para pruebas
-@app.route("/hola",methods=['GET'])
-def saludo():
-    return holaMundo()
-
-
 @app.route("/update",methods=['POST'])
 @cross_origin()
 def addDate():
@@ -105,10 +108,16 @@ def addDate():
  # necesario usar capturador de errores en esta parte, justo en el endpoint   
 
 
+#Ruta para descargar archivo mas reciente con el Datasource
+@app.route('/uploads/<name>')
+def download_file(name):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name)    
 
-@app.route("/getdatatable",methods=['GET'])
-def getTable():
-    return 
+
+#Ruta para pruebas
+@app.route("/hola",methods=['GET'])
+def saludo():
+    return app.config["UPLOAD_FOLDER"]
 
 
 #Correr el servidor

@@ -5,8 +5,6 @@ import json
 import csv
 import os
 
-#file='./recibidos/period_sem_table_modified-ToTestNew.csv';
-
 #Funcion para agregar una columna al dataframe
 def addData(newPred):
 
