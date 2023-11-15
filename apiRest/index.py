@@ -1,7 +1,7 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
-from model import trainModel,holaMundo,uploadFile,meansColumns,modeColumns,getSetData;
-from functions import addData,getCsvData
+from model import trainModel,holaMundo,uploadFile,getSetData;
+from functions import addData
 from flask import jsonify
 import json
 #CORS
@@ -114,10 +114,9 @@ def download_file(name):
 
 #Ruta para Estadisticas
 @app.route("/statistics",methods=['GET'])
-def saludo():
-    getSetData()
-    print("Resultados")
-    return "Proceso terminado"
+def getStatistics():    
+    print("Proceso terminado")
+    return getSetData()
 
 
 #Ruta para pruebas

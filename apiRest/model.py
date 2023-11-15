@@ -87,33 +87,48 @@ def getSetData():
     dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
     df = dfBeta.round()
 
+
+
+    aMean = []
+    aMedian = []
+    aMode = []
+
     # Iterar sobre cada fila 
-    for index, row in df.iterrows():
-        
+    for index, row in df.iterrows():        
         # Extraer los valores de la fila en un array
-        values = row.to_numpy()
-        
+        values = row.to_numpy()        
         # Calcular estadísticas
         mean = np.mean(values)
         median = np.median(values)
         mode = stats.mode(values)
         # trend = linregress(np.arange(len(values)), values).slope
+
+        #Guardar valores de arreglos
+        aMean.append(mean)
+        aMedian.append(median)
+        aMode.append(mode.mode)        
         
-        # Imprimir
-        print(f'Fila {index}') 
-        print(f'Media: {mean}')
-        print(f'Mediana: {median}') 
-    
-        # Revisar si es array o escalar - MODA
-        if isinstance(mode.mode, np.ndarray):
-          num_modes = mode.mode.size
-          if num_modes > 1:
-            print(f"Moda: {mode.mode}")
-          else:
-            print(f"Moda: {mode.mode[0]}")
-        else:
-          print(f"Moda: {mode.mode}")
+        # # Imprimir
+        # print(f'Semestre {index+1}') 
+        # print(f'Media: {mean}')
+        # print(f'Mediana: {median}')     
+        # # Revisar si es array o escalar - MODA
+        # if isinstance(mode.mode, np.ndarray):
+        #   num_modes = mode.mode.size
+        #   if num_modes > 1:
+        #     print(f"Moda: {mode.mode}")
+        #   else:
+        #     print(f"Moda: {mode.mode[0]}")
+        # else:
+        #   print(f"Moda: {mode.mode}")
             # print(f'Tendencia: {trend}')
+    
+    return jsonify({      
+      "mean" : aMean,
+      "median": aMedian,
+      "mode": aMode
+    }) # jsonify garantiza JSON válido
+
   
   except Exception as e:
     print("Error al intentar calcular datos  : ",e)

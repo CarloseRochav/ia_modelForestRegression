@@ -41,17 +41,3 @@ def addData(newPred):
         print("An error occurred to update row:", e)    
 
 ##Pendiente de agrear parametro para que el usuario indique a que archivo desea agregar los nuevos datos
-
-
-
-
-def getCsvData():
-    try:
-        archivo = os.path.join(app.static_folder, 'tableClaude.csv')  
-        return send_file(archivo, mimetype='text/csv', as_attachment=True, attachment_filename='tableClaude.csv')
-    except Exception as e:
-        return "Error al procersar peticion : ",e
-    
-
-
-
