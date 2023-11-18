@@ -43,10 +43,10 @@ def uploadFile(file):
         }) # jsonify garantiza JSON válido
 
     except Exception as exc:
-        print("Ha ocurrido un error : "+exc)    
+        print("Ha ocurrido un error : ",exc)
         return jsonify({
             "code":400,
-            "message" : "Error : "+exc
+            "Error message" : exc
         }) # jsonify garantiza JSON válido
 
     
@@ -86,8 +86,6 @@ def getSetData():
   try:
     dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
     df = dfBeta.round()
-
-
 
     aMean = []
     aMedian = []
