@@ -101,8 +101,14 @@ def getSetData():
         mode = stats.mode(values)
         # trend = linregress(np.arange(len(values)), values).slope
 
+        #Redondear valores de los promedios antes de regrezar al archivo json, al valor mas cercano
+        #meanRounded = [round_to_closest(number) for number in mean]
+        #print("Prmedios redondeados : ",mean," Tipo de dato : ",type(mean))
+        mean_rounded = np.around(mean, decimals=2)
+
+
         #Guardar valores de arreglos
-        aMean.append(mean)
+        aMean.append(mean_rounded)
         aMedian.append(median)
         aMode.append(mode.mode)        
         
