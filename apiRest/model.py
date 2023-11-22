@@ -54,12 +54,11 @@ def uploadFile(file):
 
 #Funcion para entrenar el modelo
 def trainModel():    
-
     try:
         # Code that might raise an exception
         #Ruta del archivo
         #dfBeta = pd.read_csv('./recibidos/period_sem_table_modified.csv')
-        dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
+        dfBeta = pd.read_csv('./recibidos/formatted.csv')
         df = dfBeta.round()
 
         # Entrenamiento
