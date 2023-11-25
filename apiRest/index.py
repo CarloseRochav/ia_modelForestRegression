@@ -1,6 +1,7 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile,getSetData;
+from stats import getOneSmtMean
 from functions import addData
 from flask import jsonify
 import json
@@ -123,6 +124,12 @@ def getStatistics():
 @app.route("/hola",methods=['GET'])
 def saludo():    
     return "Bienvenido, saludos."
+
+
+@app.route("/stats/first")
+def stats():
+    getOneSmtMean()
+    return send_from_directory("graficas","firstSemester.png",mimetype="image/png")
 
 
 #Correr el servidor
