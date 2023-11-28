@@ -1,7 +1,7 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile,getSetData;
-from stats import getOneSmtMean
+from stats import createEveryGraphics
 from functions import addData
 from flask import jsonify
 import json
@@ -9,22 +9,27 @@ import json
 from flask_cors import CORS,cross_origin
 import numpy as np
 
-app = Flask(__name__) #Creacion del servidor
+
+def create_app():
+    app = Flask(__name__)    
+
+    with app.app_context():        
+        createEveryGraphics()
+
+    return app
+
+
+# app = Flask(__name__) #Creacion del servidor
+app = create_app()
+
 
 #Config path to upload/download files 
 UPLOAD_FOLDER = 'recibidos'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #Set Upload Directory
 
-
-
-#CORS(app, allow_all_origins=True) #Para evitar problemas con CORS y front end
-#CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}}) #Para evitar problemas con CORS y front end
+#evitar problemas de CORS
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
 
-# @after_request
-# def add_cors_headers(response):
-#   response.headers.add('Access-Control-Allow-Origin', '*')
-#   return response
 
 #Creacion de rutas:
 
@@ -126,14 +131,62 @@ def saludo():
     return "Bienvenido, saludos."
 
 
-@app.route("/stats/first")
-def stats():
-    getOneSmtMean()
+
+#Rutas para obtener graficas
+
+#En este punto es necesario especificar la propiedad de "endpoint='', ya que tenemos 3 rutas con el nombre de stats
+# Y python interpreta como si se tratara del mismo endpoint aunque no sea exactamente igual. Sin la propiedad de 
+# endpoint se sobrecargara el endpoint y nos dara error
+
+#Semestre 1
+@app.route("/stats/first", endpoint="first_stats") 
+def stats():    
     return send_from_directory("graficas","firstSemester.png",mimetype="image/png")
+
+#Semestre 2
+@app.route("/stats/second", endpoint="second_stats")
+def stats():    
+    return send_from_directory("graficas","secondSemester.png",mimetype="image/png")
+
+#Semestre 3 
+@app.route("/stats/third", endpoint="third_stats")
+def stats():    
+    return send_from_directory("graficas","thirdSemester.png",mimetype="image/png")
+
+#Semestre 4
+@app.route("/stats/fourth", endpoint="fourth_stats")
+def stats():    
+    return send_from_directory("graficas","fourthSemester.png",mimetype="image/png")
+
+#Semestre 5
+@app.route("/stats/fifth", endpoint="fifth_stats")
+def stats():    
+    return send_from_directory("graficas","fifthSemester.png",mimetype="image/png")
+
+#Semestre 6
+@app.route("/stats/sixth", endpoint="sixth_stats")
+def stats():    
+    return send_from_directory("graficas","sixthSemester.png",mimetype="image/png")
+
+#Semestre 7 
+@app.route("/stats/seventh", endpoint="seventh_stats")
+def stats():    
+    return send_from_directory("graficas","seventhSemester.png",mimetype="image/png")
+
+#Semestre 8
+@app.route("/stats/eighth", endpoint="eighth_stats")
+def stats():    
+    return send_from_directory("graficas","eighthSemester.png",mimetype="image/png")
+
+#Semestre 9
+@app.route("/stats/ninth", endpoint="ninth_stats")
+def stats():    
+    return send_from_directory("graficas","ninthSemester.png",mimetype="image/png")
 
 
 #Correr el servidor
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":        
+#     app.run(debug=True)
+app.run(debug=True)
 
 

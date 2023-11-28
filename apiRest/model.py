@@ -83,7 +83,7 @@ def trainModel():
 #Funcion para sacar conjunto de medidas ; media, moda, promedio
 def getSetData():
   try:
-    dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv')
+    dfBeta = pd.read_csv('./recibidos/period_sem_table_modified-ToTestNew.csv') #no existe el archivo, asi que no va a calcualr nada
     df = dfBeta.round()
 
     aMean = []
@@ -100,31 +100,14 @@ def getSetData():
         mode = stats.mode(values)
         # trend = linregress(np.arange(len(values)), values).slope
 
-        #Redondear valores de los promedios antes de regrezar al archivo json, al valor mas cercano
-        #meanRounded = [round_to_closest(number) for number in mean]
-        #print("Prmedios redondeados : ",mean," Tipo de dato : ",type(mean))
+        #Redondear valores de los promedios antes de regrezar al archivo json, al valor mas cercano       
         mean_rounded = np.around(mean, decimals=2)
 
 
         #Guardar valores de arreglos
         aMean.append(mean_rounded)
         aMedian.append(median)
-        aMode.append(mode.mode)        
-        
-        # # Imprimir
-        # print(f'Semestre {index+1}') 
-        # print(f'Media: {mean}')
-        # print(f'Mediana: {median}')     
-        # # Revisar si es array o escalar - MODA
-        # if isinstance(mode.mode, np.ndarray):
-        #   num_modes = mode.mode.size
-        #   if num_modes > 1:
-        #     print(f"Moda: {mode.mode}")
-        #   else:
-        #     print(f"Moda: {mode.mode[0]}")
-        # else:
-        #   print(f"Moda: {mode.mode}")
-            # print(f'Tendencia: {trend}')
+        aMode.append(mode.mode)             
     
     return jsonify({      
       "mean" : aMean,
