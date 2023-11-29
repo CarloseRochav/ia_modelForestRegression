@@ -8,16 +8,15 @@ import os
 #Funcion para agregar una columna al dataframe
 def addData(newPred):
 
-    try:        
-        
+    try:                
         # Leer CSV 
         #with open('./recibidos/period_sem_table_modified-ToTestNew.csv','r') as file:
-        with open('./recibidos/tableClaude.csv','r') as file:
+        with open('./recibidos/formatted.csv','r') as file:
             reader = csv.reader(file)
             rows = list(reader)
 
             # Agregar encabezado
-            rows[0].append('periodo_31') 
+            rows[0].append('2013_AGO') 
 
             # Agregar valores de la nueva columna  
         #nuevos_datos = ['Soltero', 'Casada', 'Divorciado']
@@ -31,7 +30,7 @@ def addData(newPred):
 
         # Escribir CSV actualizado
         #with open('./recibidos/period_sem_table_modified-ToTestNew.csv', 'w', newline='') as file:
-        with open('./recibidos/tableClaude.csv', 'w', newline='') as file:
+        with open('./recibidos/formatted.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(rows)
         

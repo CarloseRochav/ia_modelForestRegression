@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from flask import Flask, send_from_directory,jsonify
+from flask import jsonify
 
 
-dfBeta = pd.read_csv('../data/period_sem_table_modified.csv')
+#dfBeta = pd.read_csv('../data/period_sem_table_modified.csv')
+dfBeta = pd.read_csv('./recibidos/formatted.csv')
 df = dfBeta.round()
 
 
@@ -16,7 +17,6 @@ y = headers
 pathGraficas = "graficas"
 # Extraer todos los renglones del DataFrame como un arreglo ; Registros dentro de un arreglo
 arreglo_renglones = df.values #Periodos
-
 
 #Valores de cada semestre
 firstSemester = arreglo_renglones[0]
@@ -31,11 +31,10 @@ ninthSemester = arreglo_renglones[8]
 
 
 
-
-
 def getOneSmtMean():
 
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
+    # fig = plt.figure(dpi=100)
     plt.plot(range(len(firstSemester)), firstSemester, 'o')
     media = np.mean(firstSemester)
     plt.plot(range(len(firstSemester)), [media]*len(firstSemester), 'r--', linewidth=2)
@@ -53,7 +52,7 @@ def getOneSmtMean():
 
 
 def getSecondSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(secondSemester)), secondSemester, 'o')
     media = np.mean(secondSemester)
     plt.plot(range(len(secondSemester)), [media]*len(secondSemester), 'r--', linewidth=2)
@@ -70,7 +69,7 @@ def getSecondSmtMean():
 
 
 def getThirdSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(thirdSemester)), thirdSemester, 'o')
     media = np.mean(thirdSemester)
     plt.plot(range(len(thirdSemester)), [media]*len(thirdSemester), 'r--', linewidth=2)
@@ -87,7 +86,7 @@ def getThirdSmtMean():
 
 
 def getFourthSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(fourthSemester)), fourthSemester, 'o')
     media = np.mean(fourthSemester)
     plt.plot(range(len(fourthSemester)), [media]*len(fourthSemester), 'r--', linewidth=2)
@@ -103,7 +102,7 @@ def getFourthSmtMean():
     })    
 
 def getfifthSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(fifthSemester)), fifthSemester, 'o')
     media = np.mean(fifthSemester)
     plt.plot(range(len(fifthSemester)), [media]*len(fifthSemester), 'r--', linewidth=2)
@@ -120,7 +119,7 @@ def getfifthSmtMean():
 
 
 def getsixthSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(sixthSemester)), sixthSemester, 'o')
     media = np.mean(sixthSemester)
     plt.plot(range(len(sixthSemester)), [media]*len(sixthSemester), 'r--', linewidth=2)
@@ -137,7 +136,7 @@ def getsixthSmtMean():
 
 
 def getSeventhSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(seventhSemester)), seventhSemester, 'o')
     media = np.mean(seventhSemester)
     plt.plot(range(len(seventhSemester)), [media]*len(seventhSemester), 'r--', linewidth=2)
@@ -155,7 +154,7 @@ def getSeventhSmtMean():
 
 
 def getEighthSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(eighthSemester)), eighthSemester, 'o')
     media = np.mean(eighthSemester)
     plt.plot(range(len(eighthSemester)), [media]*len(eighthSemester), 'r--', linewidth=2)
@@ -172,7 +171,7 @@ def getEighthSmtMean():
 
 
 def getNinthSmtMean():
-    fig = plt.figure(dpi=100)
+    plt.figure(figsize=(8, 8), dpi=100)
     plt.plot(range(len(ninthSemester)), ninthSemester, 'o')
     media = np.mean(ninthSemester)
     plt.plot(range(len(ninthSemester)), [media]*len(ninthSemester), 'r--', linewidth=2)
