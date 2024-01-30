@@ -1,7 +1,7 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile,getSetData;
-from stats import createEveryGraphics
+from stats import generatEveryStats
 from functions import addData
 from flask import jsonify
 import json
@@ -13,15 +13,13 @@ import numpy as np
 def create_app():
     app = Flask(__name__)    
 
-    with app.app_context():        
-        createEveryGraphics()
+    with app.app_context():                
+        generatEveryStats()
 
     return app
 
-
 # app = Flask(__name__) #Creacion del servidor
 app = create_app()
-
 
 #Config path to upload/download files 
 UPLOAD_FOLDER = 'recibidos'
@@ -29,7 +27,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #Set Upload Directory
 
 #evitar problemas de CORS
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST"]}})
-
 
 #Creacion de rutas:
 
@@ -131,7 +128,6 @@ def saludo():
     return "Bienvenido, saludos."
 
 
-
 #Rutas para obtener graficas
 
 #En este punto es necesario especificar la propiedad de "endpoint='', ya que tenemos 3 rutas con el nombre de stats
@@ -141,47 +137,52 @@ def saludo():
 #Semestre 1
 @app.route("/stats/first", endpoint="first_stats") 
 def stats():    
-    return send_from_directory("graficas","firstSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_1.png",mimetype="image/png")
 
 #Semestre 2
 @app.route("/stats/second", endpoint="second_stats")
 def stats():    
-    return send_from_directory("graficas","secondSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_2.png",mimetype="image/png")
 
 #Semestre 3 
 @app.route("/stats/third", endpoint="third_stats")
 def stats():    
-    return send_from_directory("graficas","thirdSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_3.png",mimetype="image/png")
 
 #Semestre 4
 @app.route("/stats/fourth", endpoint="fourth_stats")
 def stats():    
-    return send_from_directory("graficas","fourthSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_4.png",mimetype="image/png")
 
 #Semestre 5
 @app.route("/stats/fifth", endpoint="fifth_stats")
 def stats():    
-    return send_from_directory("graficas","fifthSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_5.png",mimetype="image/png")
 
 #Semestre 6
 @app.route("/stats/sixth", endpoint="sixth_stats")
 def stats():    
-    return send_from_directory("graficas","sixthSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_6.png",mimetype="image/png")
 
 #Semestre 7 
 @app.route("/stats/seventh", endpoint="seventh_stats")
 def stats():    
-    return send_from_directory("graficas","seventhSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_7.png",mimetype="image/png")
 
 #Semestre 8
 @app.route("/stats/eighth", endpoint="eighth_stats")
 def stats():    
-    return send_from_directory("graficas","eighthSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_8.png",mimetype="image/png")
 
 #Semestre 9
 @app.route("/stats/ninth", endpoint="ninth_stats")
 def stats():    
-    return send_from_directory("graficas","ninthSemester.png",mimetype="image/png")
+    return send_from_directory("graficas","semestre_9.png",mimetype="image/png")
+
+#Crear Reporta
+@app.route("/stats/report", endpoint="report_stats")
+def stats():    
+    return "Finish"    
 
 
 #Correr el servidor

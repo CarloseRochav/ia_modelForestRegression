@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from flask import jsonify
+#Librerias para guardar graficos en excel
+import openpyxl
+from pathlib import Path
+import os
+import xlsxwriter
+
+images_dir = 'graficas'
+image_files = os.listdir(images_dir)
 
 
 #dfBeta = pd.read_csv('../data/period_sem_table_modified.csv')
@@ -19,188 +27,98 @@ pathGraficas = "graficas"
 arreglo_renglones = df.values #Periodos
 
 #Valores de cada semestre
-firstSemester = arreglo_renglones[0]
-secondSemester = arreglo_renglones[1]
-thirdSemester = arreglo_renglones[2]
-fourthSemester = arreglo_renglones[3]
-fifthSemester = arreglo_renglones[4]
-sixthSemester = arreglo_renglones[5]
-seventhSemester = arreglo_renglones[6]
-eighthSemester = arreglo_renglones[7]
-ninthSemester = arreglo_renglones[8]
+# semestre_1 = arreglo_renglones[0]
+# semestre_2 = arreglo_renglones[1]
+# semestre_3 = arreglo_renglones[2]
+# semestre_4 = arreglo_renglones[3]
+# semestre_5 = arreglo_renglones[4]
+# semestre_6 = arreglo_renglones[5]
+# semestre_7 = arreglo_renglones[6]
+# semestre_8 = arreglo_renglones[7]
+# semestre_9 = arreglo_renglones[8]
 
 
-
-def getOneSmtMean():
-
-    plt.figure(figsize=(8, 8), dpi=100)
-    # fig = plt.figure(dpi=100)
-    plt.plot(range(len(firstSemester)), firstSemester, 'o')
-    media = np.mean(firstSemester)
-    plt.plot(range(len(firstSemester)), [media]*len(firstSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(firstSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 1')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/firstSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
-    #return send_from_directory(pathGraficas+"/firstSemester.png",mimetype="image/png")
-
-
-def getSecondSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(secondSemester)), secondSemester, 'o')
-    media = np.mean(secondSemester)
-    plt.plot(range(len(secondSemester)), [media]*len(secondSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(secondSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 2')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/secondSemester")
+def generatEveryStats():
+    for i in range(0,9):
+        plt.figure(figsize=(8, 8), dpi=100)
+        # fig = plt.figure(dpi=100)
+        plt.plot(range(len(arreglo_renglones[i])), arreglo_renglones[i], 'o')
+        media = np.mean(arreglo_renglones[i])
+        plt.plot(range(len(arreglo_renglones[i])), [media]*len(arreglo_renglones[i]), 'r--', linewidth=2)
+        plt.xticks(range(len(arreglo_renglones[i])), y, rotation=90) 
+        plt.xlabel('Periodo')
+        plt.ylabel('Grupos')
+        plt.title('Grado Semestre '+str(i+1))        
+        #plt.show()
+        plt.savefig(pathGraficas+"/semestre_"+str(i+1))
     return jsonify ({
         "msg" : "Grafica generada"
     })
 
 
-def getThirdSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(thirdSemester)), thirdSemester, 'o')
-    media = np.mean(thirdSemester)
-    plt.plot(range(len(thirdSemester)), [media]*len(thirdSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(thirdSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 3')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/thirdSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
+def export_plots_to_excel(excel_file, sheet_name, width, height):
+    """
+    Exporta varias imágenes de Matplotlib a una hoja de Excel.
+
+    Args:
+        plots: Las imágenes de Matplotlib a exportar.
+        excel_file: El nombre del archivo de Excel donde se exportarán las imágenes.
+        sheet_name: El nombre de la hoja de Excel donde se exportarán las imágenes.
+        row_start: La fila donde se iniciará la exportación de las imágenes.
+        column_start: La columna donde se iniciará la exportación de las imágenes.
+        width: El ancho de las imágenes.
+        height: El alto de las imágenes.
+    """
+
+    # Abrir el archivo de Excel.
+    workbook = xlsxwriter.Workbook(excel_file)
+    #Crear hoja 
+    worksheet = workbook.add_worksheet(sheet_name)  
+    #Agregar otra hoja
+    worksheet2 = workbook.add_worksheet("Sheet2")  
+
+    # Widen the first column to make the text clearer.
+    #worksheet.set_column("A:A", 30)             
+    
+    # Opciones de inserción
+    options = {
+        'x_offset': width,
+        'y_offset': height, 
+    }
+    
+    worksheet.insert_image("B4",pathGraficas+"/semestre_1.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("I4","graficas/semestre_2.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("P4","graficas/semestre_3.png" ,{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("B25","graficas/semestre_4.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("I25","graficas/semestre_5.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("P25","graficas/semestre_6.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("B46","graficas/semestre_7.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("I46","graficas/semestre_8.png",{"x_scale": 0.5, "y_scale": 0.5})                
+    worksheet.insert_image("P46","graficas/semestre_9.png",{"x_scale": 0.5, "y_scale": 0.5})       
+    #Agregando DataFrame as Table a nueva hoda del mismo archivo
+    worksheet2.add_table(0, 0, df.shape[0], df.shape[1] - 1,  
+                     {'data': df.values,
+                      'columns': [{'header': col} for col in df.columns]})     
+     
+    
+    # Eliminar el archivo temporal.
+    #os.remove(fig_file)
+    print("Graficas Generadas")
+
+    # Cerrar el archivo de Excel.
+    workbook.close()    
 
 
-def getFourthSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(fourthSemester)), fourthSemester, 'o')
-    media = np.mean(fourthSemester)
-    plt.plot(range(len(fourthSemester)), [media]*len(fourthSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(fourthSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 4')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/fourthSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })    
-
-def getfifthSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(fifthSemester)), fifthSemester, 'o')
-    media = np.mean(fifthSemester)
-    plt.plot(range(len(fifthSemester)), [media]*len(fifthSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(fifthSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 5')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/fifthSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
-
-
-def getsixthSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(sixthSemester)), sixthSemester, 'o')
-    media = np.mean(sixthSemester)
-    plt.plot(range(len(sixthSemester)), [media]*len(sixthSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(sixthSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 6')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/sixthSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
-
-
-def getSeventhSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(seventhSemester)), seventhSemester, 'o')
-    media = np.mean(seventhSemester)
-    plt.plot(range(len(seventhSemester)), [media]*len(seventhSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(seventhSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 7')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/seventhSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
-
-
-
-def getEighthSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(eighthSemester)), eighthSemester, 'o')
-    media = np.mean(eighthSemester)
-    plt.plot(range(len(eighthSemester)), [media]*len(eighthSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(eighthSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 8')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/eighthSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
-
-
-def getNinthSmtMean():
-    plt.figure(figsize=(8, 8), dpi=100)
-    plt.plot(range(len(ninthSemester)), ninthSemester, 'o')
-    media = np.mean(ninthSemester)
-    plt.plot(range(len(ninthSemester)), [media]*len(ninthSemester), 'r--', linewidth=2)
-    plt.xticks(range(len(ninthSemester)), y, rotation=90) 
-    plt.xlabel('Periodo')
-    plt.ylabel('Grupos')
-    plt.title('Grado Semestre 9')     
-        
-    #plt.show()
-    plt.savefig(pathGraficas+"/ninthSemester")
-    return jsonify ({
-        "msg" : "Grafica generada"
-    })
+# Exportar las imágenes.
+#export_plots_to_excel("reporte_con_imagenes.xlsx","Sheet",150, 100) 
 
 
 #Funcion para crear las graficas 
 # 1. Tener un proceso separado que importe ese módulo y genere todas las imágenes estáticas necesarias al iniciar (por ejemplo crear_graficas.py)
 # 2. Los endpoints de Flask simplemente leerán y servirán los archivos estáticos ya generados, no deben crear las gráficas en el request.
 
-def createEveryGraphics():
-    getOneSmtMean()
-    getSecondSmtMean()
-    getThirdSmtMean()
-    getFourthSmtMean()
-    getfifthSmtMean()
-    getsixthSmtMean()
-    getSeventhSmtMean()
-    getEighthSmtMean()
-    getNinthSmtMean()
+
+
 
 
 
