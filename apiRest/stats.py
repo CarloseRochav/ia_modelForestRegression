@@ -56,7 +56,7 @@ def generatEveryStats():
     })
 
 
-def export_plots_to_excel(excel_file, sheet_name, width, height):
+def export_plots_to_excel(excel_file, width, height):
     """
     Exporta varias imágenes de Matplotlib a una hoja de Excel.
 
@@ -71,11 +71,12 @@ def export_plots_to_excel(excel_file, sheet_name, width, height):
     """
 
     # Abrir el archivo de Excel.
-    workbook = xlsxwriter.Workbook(excel_file)
+    #workbook = xlsxwriter.Workbook(excel_file)
+    workbook = xlsxwriter.Workbook("reportes"+"/"+excel_file)    
     #Crear hoja 
-    worksheet = workbook.add_worksheet(sheet_name)  
+    worksheet = workbook.add_worksheet("Graficas")  
     #Agregar otra hoja
-    worksheet2 = workbook.add_worksheet("Sheet2")  
+    worksheet2 = workbook.add_worksheet("Tabla")  
 
     # Widen the first column to make the text clearer.
     #worksheet.set_column("A:A", 30)             
@@ -113,7 +114,7 @@ def export_plots_to_excel(excel_file, sheet_name, width, height):
 #export_plots_to_excel("reporte_con_imagenes.xlsx","Sheet",150, 100) 
 
 
-#Funcion para crear las graficas 
+#Funcion para crear las graficas 3
 # 1. Tener un proceso separado que importe ese módulo y genere todas las imágenes estáticas necesarias al iniciar (por ejemplo crear_graficas.py)
 # 2. Los endpoints de Flask simplemente leerán y servirán los archivos estáticos ya generados, no deben crear las gráficas en el request.
 

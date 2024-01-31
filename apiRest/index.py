@@ -1,7 +1,7 @@
 from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile,getSetData;
-from stats import generatEveryStats
+from stats import generatEveryStats, export_plots_to_excel
 from functions import addData
 from flask import jsonify
 import json
@@ -183,6 +183,11 @@ def stats():
 @app.route("/stats/report", endpoint="report_stats")
 def stats():    
     return "Finish"    
+
+@app.route("/save_report")
+def ExportReport():
+    export_plots_to_excel("Reporte.xlsx", 150, 100)
+    return send_from_directory("reportes","Reporte.xlsx", as_attachment=True)
 
 
 #Correr el servidor
