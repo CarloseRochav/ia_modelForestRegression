@@ -2,7 +2,7 @@ from flask import Flask, request,Response, send_from_directory
 #Importar funciones a usar
 from model import trainModel,holaMundo,uploadFile,getSetData;
 from stats import generatEveryStats, export_plots_to_excel
-from functions import addData
+from functions import addData, removeData
 from flask import jsonify
 import json
 #CORS
@@ -103,6 +103,21 @@ def addDate():
         }) # jsonify garantiza JSON válido
     except Exception as e:
         return "error : ",e
+    
+
+@app.route("/remove")
+def removeColumn():
+    try:
+        removeData()
+        
+        return jsonify({
+            "code":200,
+            "messagge" : "Columna Removida"
+        }) # jsonify garantiza JSON válido
+    except Exception as e:
+        return "error : ",e
+
+
     
  #; Ruta para llamar a la funcion que entrena el modelo randomForestRegression, es
  # necesario usar capturador de errores en esta parte, justo en el endpoint   

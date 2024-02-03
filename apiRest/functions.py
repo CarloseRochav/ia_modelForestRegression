@@ -4,6 +4,7 @@ import json
 #Para recibir archivo csv y ver su contenido
 import csv
 import os
+from tempfile import NamedTemporaryFile
 
 #Funcion para agregar una columna al dataframe
 def addData(newPred):
@@ -40,3 +41,28 @@ def addData(newPred):
         print("An error occurred to update row:", e)    
 
 ##Pendiente de agrear parametro para que el usuario indique a que archivo desea agregar los nuevos datos
+        
+
+def removeData():    
+    try:        
+        # with open('./recibidos/tableClaude.csv',"r") as fin:
+        #     with open('./recibidos/tableClaude2.csv',"w") as fout:
+        #         writer=csv.writer(fout)
+        #         for row in csv.reader(fin):
+        #             writer.writerow(row[:-1])       
+        with open('./recibidos/tableClaude.csv', 'r') as fin:
+            rows = list(csv.reader(fin))
+
+        for row in rows:
+            row.pop(-1)   
+
+        with NamedTemporaryFile(mode='w', delete=False) as tf:
+            writer = csv.writer(tf)
+            for row in rows:
+                writer.writerow(row)            
+    
+        os.remove('./recibidos/tableClaude.csv')
+        os.rename(tf.name, './recibidos/tableClaude.csv')
+
+    except Exception as e:
+        print("Error al intentar remover columna:", e)    
