@@ -6,6 +6,9 @@ import csv
 import os
 from tempfile import NamedTemporaryFile
 
+import glob
+
+
 #Funcion para agregar una columna al dataframe
 def addData(newPred):
 
@@ -50,19 +53,36 @@ def removeData():
         #         writer=csv.writer(fout)
         #         for row in csv.reader(fin):
         #             writer.writerow(row[:-1])       
-        with open('./recibidos/tableClaude.csv', 'r') as fin:
-            rows = list(csv.reader(fin))
 
+        # files = glob.glob('tmp*.csv') 
+        # for f in files:        
+        #     os.remove(f)       
+        
+
+        with open('./recibidos/formatted.csv', 'r') as fin:
+            rows = list(csv.reader(fin))
+            # Print Data file
+            #print("Archivo : ",rows)
+            #Validacion
+            
+
+
+        #Iteracion para remover la ultima fila
         for row in rows:
-            row.pop(-1)   
+            if row: #Validacion que ignora filas vacias 
+                print(f"Longitud fila: {len(row)}") 
+                print(f"Fila: {row}")
+                row.pop(-1)
+
 
         with NamedTemporaryFile(mode='w', delete=False) as tf:
-            writer = csv.writer(tf)
+            #writer = csv.writer(tf)
+            writer = csv.writer(tf, lineterminator='\n')#el lineterminator evita que agregue filas vacias no deseadas
             for row in rows:
                 writer.writerow(row)            
     
-        os.remove('./recibidos/tableClaude.csv')
-        os.rename(tf.name, './recibidos/tableClaude.csv')
+        os.remove('./recibidos/formatted.csv')
+        os.rename(tf.name, './recibidos/formatted.csv')
 
     except Exception as e:
         print("Error al intentar remover columna:", e)    
